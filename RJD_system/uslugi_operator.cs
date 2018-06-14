@@ -47,6 +47,7 @@ namespace RJD_system
         public static string id_pokupka;
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
+            int off = 0;
             int index = dataGridView1.CurrentCell.RowIndex;
             if (Convert.ToString(dataGridView1.Rows[index].Cells[3].Value).Contains("Покупка") == true)
             {
@@ -54,15 +55,21 @@ namespace RJD_system
                 int index2 = dataGridView1.CurrentCell.RowIndex;
                 id_pokupka = Convert.ToString(dataGridView1.Rows[index2].Cells[0].Value);
                 pokupka_operator.ShowDialog();
+                off = 1;
                 refreshing();
+
             }
-            if (Convert.ToString(dataGridView1.Rows[index].Cells[3].Value).Contains("Возврат") == true)
+            if (off == 0)
             {
-                Form vozvrat_operator = new vozvrat_operator();
-                int index2 = dataGridView1.CurrentCell.RowIndex;
-                id_pokupka = Convert.ToString(dataGridView1.Rows[index2].Cells[0].Value);
-                vozvrat_operator.ShowDialog();
-                refreshing();
+                if (Convert.ToString(dataGridView1.Rows[index].Cells[3].Value).Contains("Возврат") == true)
+                {
+                    Form vozvrat_operator = new vozvrat_operator();
+                    int index2 = dataGridView1.CurrentCell.RowIndex;
+                    id_pokupka = Convert.ToString(dataGridView1.Rows[index2].Cells[0].Value);
+                    vozvrat_operator.ShowDialog();
+                    off = 1;
+                    refreshing();
+                }
             }
 
         }
@@ -73,38 +80,38 @@ namespace RJD_system
             string ind = Convert.ToString(dataGridView1.Rows[index].Cells[0].Value);
             try
             {
-               
-                    if (MessageBox.Show("Удалить заявку?\nОтменить данное действие будет невозможно.", "ЖД Вокзал", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                    {
-                        MySqlConnection conn = new MySqlConnection(Form1.connStr);
-                        // устанавливаем соединение с БД
-                        conn.Open();
-                        string add = "DELETE FROM Talon WHERE ID_Talona = '" + ind + "'";
-                        MySqlCommand adda = new MySqlCommand(add, conn);
 
-                        MySqlDataReader MyDataReader;
-                        MyDataReader = adda.ExecuteReader();
+                if (MessageBox.Show("Удалить заявку?\nОтменить данное действие будет невозможно.", "ЖД Вокзал", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    MySqlConnection conn = new MySqlConnection(Form1.connStr);
+                    // устанавливаем соединение с БД
+                    conn.Open();
+                    string add = "DELETE FROM Talon WHERE ID_Talona = '" + ind + "'";
+                    MySqlCommand adda = new MySqlCommand(add, conn);
 
-                        while (MyDataReader.Read())
-                        {
-                        }
-                        MyDataReader.Close();
-                        conn.Close();
-                        MessageBox.Show("Заявка удалена!", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        refreshing();
-                        // Close();
-                    }
-                    else
+                    MySqlDataReader MyDataReader;
+                    MyDataReader = adda.ExecuteReader();
+
+                    while (MyDataReader.Read())
                     {
-                        MessageBox.Show("Удаление отменено!", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
+                    MyDataReader.Close();
+                    conn.Close();
+                    MessageBox.Show("Заявка удалена!", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    refreshing();
+                    // Close();
+                }
+                else
+                {
+                    MessageBox.Show("Удаление отменено!", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
 
             }
             catch
             {
                 MessageBox.Show("Ошибка!", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-                
-            }
+
+        }
     }
 }
