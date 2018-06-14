@@ -22,6 +22,10 @@ namespace RJD_system
 
         private void button1_Click(object sender, EventArgs e)
         {
+            string dat1time = Convert.ToString(dateTimePicker1.Value).Remove(10);
+
+            string[] dat2time = dat1time.Split(new char[] { '.' });
+            data_rojdenia = dat2time[2] + "-" + dat2time[1] + "-" + dat2time[0];
             //ДОБАВЛЯЕМ ПОЛЬЗОВАТЕЛЯ В БАЗУ
             try
             {
@@ -36,7 +40,7 @@ namespace RJD_system
                     "Pasport = '" + textBox5.Text + "', " +
                     "Data_Rojdenia = '" + data_rojdenia + "'";
                 MySqlCommand adda = new MySqlCommand(add, conn);
-               
+
                 MySqlDataReader MyDataReader;
                 MyDataReader = adda.ExecuteReader();
 
@@ -45,7 +49,7 @@ namespace RJD_system
                 }
                 MyDataReader.Close();
                 conn.Close();
-                
+
                 // MessageBox.Show("Новый рейс успешно добавлен!", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 // Close();
             }
@@ -70,6 +74,21 @@ namespace RJD_system
                 }
                 string dates_new_single = dates_new[2].Remove(4) + "-" + dates_new[1] + "-" + dates_new[0];
                 string data = dates_new_single + " " + label3.Text + ":" + seconds_upper;
+
+
+
+
+
+                string dat1time1 = Convert.ToString(vremya_otprv).Remove(10);
+
+                string[] otp = dat1time1.Split(new char[] { '.' });
+                vremya_otprv = otp[2] + "-" + otp[1] + "-" + otp[0];
+
+
+                string dat1time2 = Convert.ToString(vremya_pribit).Remove(10);
+
+                string[] pr = dat1time2.Split(new char[] { '.' });
+                vremya_pribit = pr[2] + "-" + pr[1] + "-" + pr[0];
                 MySqlConnection conn = new MySqlConnection(Form1.connStr);
                 // устанавливаем соединение с БД
                 conn.Open();
@@ -97,7 +116,7 @@ namespace RJD_system
                 MyDataReader.Close();
                 conn.Close();
 
-                
+
                 // Close();
             }
             catch
@@ -144,7 +163,7 @@ namespace RJD_system
         {
             label22.Text = "№ заявки: " + uslugi_operator.id_pokupka;
             //ДЕЛАЕМ ЗАПРОС К БД
-        
+
 
             try
             {
@@ -162,7 +181,7 @@ namespace RJD_system
                 while (MyDataReader.Read())
                 {
 
-                 
+
                     id_clienta = MyDataReader.GetString(1);
                     id_sotrudnica = MyDataReader.GetString(2);
                     data_vidachi = MyDataReader.GetString(3);
@@ -173,8 +192,8 @@ namespace RJD_system
                 MyDataReader.Close();
                 // закрываем соединение с БД
                 conn.Close();
-               
-              //  MessageBox.Show(id_bileta, "");
+
+                //  MessageBox.Show(id_bileta, "");
 
             }
             catch
@@ -232,13 +251,14 @@ namespace RJD_system
                 {
 
 
-                   vremya_otprv = MyDataReader.GetString(2);
+                    vremya_otprv = MyDataReader.GetString(2);
                     vremya_pribit = MyDataReader.GetString(3);
                     stoimost = MyDataReader.GetString(4);
                     nomer_mesta = MyDataReader.GetString(5);
                     tip_mesta = MyDataReader.GetString(6);
 
                 }
+
                 MyDataReader.Close();
                 // закрываем соединение с БД
                 conn.Close();

@@ -17,13 +17,13 @@ namespace RJD_system
         {
             InitializeComponent();
         }
-        private void refreshing ()
+        private void refreshing()
         {
             // создаём объект для подключения к БД
             MySqlConnection conn = new MySqlConnection(Form1.connStr);
             // устанавливаем соединение с БД
             conn.Open();
-           
+
             //ЗАГРУЖАЕМ ТАБЛИЦУ ПОЛЬЗОВАТЕЛЕЙ
             DataSet ds = new DataSet();
             MySqlDataAdapter ad = new MySqlDataAdapter("Select * from Sotrudnic", conn);// параметры- команда для выполнения + connection;
@@ -38,7 +38,7 @@ namespace RJD_system
             dataGridView1.Columns[2].HeaderText = "Фамилия";
             dataGridView1.Columns[3].HeaderText = "Отчество";
             dataGridView1.Columns[4].HeaderText = "Телефон";
-            dataGridView1.Columns[5].HeaderText = "Логин";            
+            dataGridView1.Columns[5].HeaderText = "Логин";
             dataGridView1.Columns[7].HeaderText = "Роль в системе";
 
             for (int i = 0; i < dataGridView1.Rows.Count; i++)
@@ -82,7 +82,7 @@ namespace RJD_system
         {
             int index = dataGridView1.CurrentCell.RowIndex;
             idedit = Convert.ToString(dataGridView1.Rows[index].Cells[0].Value);
-            Form edit_usr = new edit_usr();           
+            Form edit_usr = new edit_usr();
             edit_usr.ShowDialog();
             refreshing();
         }
@@ -93,7 +93,8 @@ namespace RJD_system
             string ind = Convert.ToString(dataGridView1.Rows[index].Cells[0].Value);
             try
             {
-                if (ind != Form1.id.ToString()) {
+                if (ind != Form1.id.ToString())
+                {
                     if (MessageBox.Show("Удалить сотрудника?\nОтменить данное действие будет невозможно.", "ЖД Вокзал", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         MySqlConnection conn = new MySqlConnection(Form1.connStr);
@@ -129,7 +130,7 @@ namespace RJD_system
             {
                 MessageBox.Show("Ошибка удаления!", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-       
+
         }
 
         private void SotrudnikiCellClick(object sender, DataGridViewCellEventArgs e)
