@@ -25,7 +25,7 @@ namespace RJD_system
             idpoezd = rnd.Next(1002, 9997);
             label1.Text = "ID: " + idpoezd.ToString();
         }
-        
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -34,33 +34,42 @@ namespace RJD_system
             idpoezd = rnd.Next(1002, 9997);
             label1.Text = "ID: " + idpoezd.ToString();
             //начинаем запрос
-            try
+            if (textBox2.Text != "" && textBox3.Text != "")
             {
-                MySqlConnection conn = new MySqlConnection(Form1.connStr);
-                // устанавливаем соединение с БД
-                conn.Open();
-                string add = "INSERT INTO Poezd SET " +
-                    "ID_Poezda = '" + idpoezd.ToString() + "', " +
-                    "Kolichestvo_vagonov = '" + textBox2.Text + "', " +
-                    "Kolichestvo_mest = '" + textBox3.Text + "'";
 
 
-                MySqlCommand adda = new MySqlCommand(add, conn);
-                //   MySqlCommand insrt = new MySqlCommand(insert, conn);
-                MySqlDataReader MyDataReader;
-                MyDataReader = adda.ExecuteReader();
-
-                while (MyDataReader.Read())
+                try
                 {
+                    MySqlConnection conn = new MySqlConnection(Form1.connStr);
+                    // устанавливаем соединение с БД
+                    conn.Open();
+                    string add = "INSERT INTO Poezd SET " +
+                        "ID_Poezda = '" + idpoezd.ToString() + "', " +
+                        "Kolichestvo_vagonov = '" + textBox2.Text + "', " +
+                        "Kolichestvo_mest = '" + textBox3.Text + "'";
+
+
+                    MySqlCommand adda = new MySqlCommand(add, conn);
+                    //   MySqlCommand insrt = new MySqlCommand(insert, conn);
+                    MySqlDataReader MyDataReader;
+                    MyDataReader = adda.ExecuteReader();
+
+                    while (MyDataReader.Read())
+                    {
+                    }
+                    MyDataReader.Close();
+                    conn.Close();
+                    MessageBox.Show("Новый поезд успешно добавлен!", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Close();
                 }
-                MyDataReader.Close();
-                conn.Close();
-                MessageBox.Show("Новый поезд успешно добавлен!", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Close();
+                catch
+                {
+                    MessageBox.Show("Ошибка добавления!", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            catch
+            else
             {
-                MessageBox.Show("Ошибка добавления!", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Заполните все поля!", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -70,6 +79,11 @@ namespace RJD_system
 
             idpoezd = rnd.Next(1002, 9997);
             label1.Text = "ID: " + idpoezd.ToString();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

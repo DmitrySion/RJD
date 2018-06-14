@@ -19,6 +19,81 @@ namespace RJD_system
         }
         public static string id_clienta, id_sotrudnica, data_vidachi, usluga;
         public static string id_reisa, nazvanie, otprv, pribit, num_otprv, pereod;
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            /////////////////////////////////////////////
+            ////ПРОИЗВОДИМ ВОЗВРАТ БИЛЕТА////
+            /////////////////////////////////////////////
+
+
+
+
+
+            //////////////////////////////////////////////////////////////////
+            ////УДАЛЯЕМ БИЛЕТ ИЗ TALONBILET/////////////////////////////////
+            ////////////////////////////////////////////////////////////////////
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(Form1.connStr);
+                // устанавливаем соединение с БД
+                conn.Open();
+                string add = "DELETE FROM Talon_Bilet WHERE ID_Bileta = '" + id_bileta + "'";
+                MySqlCommand adda = new MySqlCommand(add, conn);
+                //   MySqlCommand insrt = new MySqlCommand(insert, conn);
+                MySqlDataReader MyDataReader;
+                MyDataReader = adda.ExecuteReader();
+
+                while (MyDataReader.Read())
+                {
+                }
+                MyDataReader.Close();
+                conn.Close();
+
+                Close();
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка возврата билета в продажу!", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+
+
+
+            //////////////////////////////////////////////////////////////////
+            ////УДАЛЯЕМ ТАЛОН/////////////////////////////////
+            ////////////////////////////////////////////////////////////////////
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(Form1.connStr);
+                // устанавливаем соединение с БД
+                conn.Open();
+                string add = "DELETE FROM Talon WHERE ID_Talona = '" + uslugi_operator.id_pokupka + "'";
+                MySqlCommand adda = new MySqlCommand(add, conn);
+                //   MySqlCommand insrt = new MySqlCommand(insert, conn);
+                MySqlDataReader MyDataReader;
+                MyDataReader = adda.ExecuteReader();
+
+                while (MyDataReader.Read())
+                {
+                }
+                MyDataReader.Close();
+                conn.Close();
+                MessageBox.Show("Возврат успешно произведен!", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Close();
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка удаления использованного талона!", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
         public static string id_clienta1, familia, imya, ochestvo, data_rojdenia;
         public static string id_bileta, id_reisa2, vremya_otprv, vremya_pribit, stoimost, nomer_mesta, tip_mesta;
         private void vozvrat_operator_Load(object sender, EventArgs e)
@@ -152,8 +227,8 @@ namespace RJD_system
                     textBox1.Text = MyDataReader.GetString(2);
                     textBox6.Text = MyDataReader.GetString(3);
                     textBox5.Text = MyDataReader.GetString(4);
-                   // textBox5.Text = MyDataReader.GetString(4); ///ДАТА РОЖДЕНИЯ НЕ ЗАБЫТЬ
-                   
+                    // textBox5.Text = MyDataReader.GetString(4); ///ДАТА РОЖДЕНИЯ НЕ ЗАБЫТЬ
+
                 }
                 MyDataReader.Close();
                 // закрываем соединение с БД
