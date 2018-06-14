@@ -43,61 +43,67 @@ namespace RJD_system
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
-            string notshapass = textBox4.Text;
-            string shapass = "";
-            //ПОЛУЧАЕМ ХЭШ ПАРОЛЯ
-            byte[] hash = Encoding.ASCII.GetBytes(notshapass);
-            MD5 md5 = new MD5CryptoServiceProvider();
-            byte[] hashenc = md5.ComputeHash(hash);
-            string result = "";
-            foreach (var b in hashenc)
+            if (textBox1.Text != "" && textBox2.Text != "" && textBox3.Text != "" && textBox4.Text != "" && textBox5.Text != "" && textBox6.Text != "" && comboBox1.Text != "")
             {
-                result += b.ToString("x2");
-            }
-           
-            shapass = result; //полученный хэш пароля
-           //инициализация переменных
-            id_addusr = rnd_value.ToString();
-            name_addusr = textBox1.Text;
-            surname_addusr = textBox2.Text;
-            otchestvo_addusr = textBox6.Text;
-            phones_addusr = textBox5.Text;
-            login_addusr = textBox3.Text;
-            password_addusr = shapass;
-            role_addusr = comboBox1.SelectedIndex.ToString();
-
-            //начинаем запрос
-            try
-            {
-                MySqlConnection conn = new MySqlConnection(Form1.connStr);
-                // устанавливаем соединение с БД
-                conn.Open();
-                string add = "INSERT INTO Sotrudnic SET " +
-                    "ID_Sotrudnica = '" + id_addusr + "', " +
-                    "Familia = '" + surname_addusr + "', " +
-                    "Imya = '" + name_addusr + "', " +
-                    "Ochestvo = '" + otchestvo_addusr + "', " +
-                    "Telefon = '" + phones_addusr + "', " +
-                    "Login = '" + login_addusr + "', " +
-                    "Password = '" + password_addusr + "', " +
-                    "RoleID = '" + role_addusr + "' ";
-                MySqlCommand adda = new MySqlCommand(add, conn);
-                //   MySqlCommand insrt = new MySqlCommand(insert, conn);
-                MySqlDataReader MyDataReader;
-                MyDataReader = adda.ExecuteReader();
-
-                while (MyDataReader.Read())
+                string notshapass = textBox4.Text;
+                string shapass = "";
+                //ПОЛУЧАЕМ ХЭШ ПАРОЛЯ
+                byte[] hash = Encoding.ASCII.GetBytes(notshapass);
+                MD5 md5 = new MD5CryptoServiceProvider();
+                byte[] hashenc = md5.ComputeHash(hash);
+                string result = "";
+                foreach (var b in hashenc)
                 {
+                    result += b.ToString("x2");
                 }
-                MyDataReader.Close();
-                conn.Close();
-                MessageBox.Show("Новый сотрудник успешно добавлен!", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                Close();
+
+                shapass = result; //полученный хэш пароля
+                                  //инициализация переменных
+                id_addusr = rnd_value.ToString();
+                name_addusr = textBox1.Text;
+                surname_addusr = textBox2.Text;
+                otchestvo_addusr = textBox6.Text;
+                phones_addusr = textBox5.Text;
+                login_addusr = textBox3.Text;
+                password_addusr = shapass;
+                role_addusr = comboBox1.SelectedIndex.ToString();
+
+                //начинаем запрос
+                try
+                {
+                    MySqlConnection conn = new MySqlConnection(Form1.connStr);
+                    // устанавливаем соединение с БД
+                    conn.Open();
+                    string add = "INSERT INTO Sotrudnic SET " +
+                        "ID_Sotrudnica = '" + id_addusr + "', " +
+                        "Familia = '" + surname_addusr + "', " +
+                        "Imya = '" + name_addusr + "', " +
+                        "Ochestvo = '" + otchestvo_addusr + "', " +
+                        "Telefon = '" + phones_addusr + "', " +
+                        "Login = '" + login_addusr + "', " +
+                        "Password = '" + password_addusr + "', " +
+                        "RoleID = '" + role_addusr + "' ";
+                    MySqlCommand adda = new MySqlCommand(add, conn);
+                    //   MySqlCommand insrt = new MySqlCommand(insert, conn);
+                    MySqlDataReader MyDataReader;
+                    MyDataReader = adda.ExecuteReader();
+
+                    while (MyDataReader.Read())
+                    {
+                    }
+                    MyDataReader.Close();
+                    conn.Close();
+                    MessageBox.Show("Новый сотрудник успешно добавлен!", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Close();
+                }
+                catch
+                {
+                    MessageBox.Show("Ошибка добавления!", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            catch
+            else
             {
-                MessageBox.Show("Ошибка добавления!", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Не все поля заполнены!", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -113,7 +119,7 @@ namespace RJD_system
 
         private void Clickaaas(object sender, EventArgs e)
         {
-            if ( textBox4.UseSystemPasswordChar == true)
+            if (textBox4.UseSystemPasswordChar == true)
             {
                 textBox4.UseSystemPasswordChar = false;
             }
@@ -154,8 +160,8 @@ namespace RJD_system
             if (comboBox1.SelectedIndex == 2)
             {
 
-                textBox4.Enabled = false;textBox4.Text = "";
-                textBox3.Enabled = false;textBox3.Text = GetPass(10);
+                textBox4.Enabled = false; textBox4.Text = "";
+                textBox3.Enabled = false; textBox3.Text = GetPass(10);
                 label9.Text = "Для персонала поезда авторизация недоступна";
             }
         }
