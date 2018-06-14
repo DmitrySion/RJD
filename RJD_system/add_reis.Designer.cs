@@ -53,9 +53,11 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label11 = new System.Windows.Forms.Label();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
             // button2
@@ -65,8 +67,10 @@
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(131, 34);
             this.button2.TabIndex = 56;
+            this.button2.TabStop = false;
             this.button2.Text = "Отмена";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 
@@ -86,17 +90,20 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(131, 34);
             this.button1.TabIndex = 54;
+            this.button1.TabStop = false;
             this.button1.Text = "Добавить";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // comboBox1
             // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(133, 214);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(180, 21);
             this.comboBox1.TabIndex = 53;
+            this.comboBox1.TabStop = false;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label7
@@ -115,6 +122,7 @@
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(259, 20);
             this.textBox6.TabIndex = 50;
+            this.textBox6.TabStop = false;
             // 
             // textBox5
             // 
@@ -123,6 +131,7 @@
             this.textBox5.ReadOnly = true;
             this.textBox5.Size = new System.Drawing.Size(141, 20);
             this.textBox5.TabIndex = 51;
+            this.textBox5.TabStop = false;
             this.textBox5.Text = "Каждый 1 час";
             this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
@@ -142,6 +151,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(259, 20);
             this.textBox2.TabIndex = 48;
+            this.textBox2.TabStop = false;
             // 
             // label3
             // 
@@ -159,6 +169,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(259, 20);
             this.textBox1.TabIndex = 47;
+            this.textBox1.TabStop = false;
             // 
             // label2
             // 
@@ -196,6 +207,7 @@
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(177, 20);
             this.textBox3.TabIndex = 47;
+            this.textBox3.TabStop = false;
             // 
             // label5
             // 
@@ -255,6 +267,7 @@
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(19, 20);
             this.button4.TabIndex = 54;
+            this.button4.TabStop = false;
             this.button4.Text = "+";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
@@ -266,6 +279,7 @@
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(19, 20);
             this.button5.TabIndex = 54;
+            this.button5.TabStop = false;
             this.button5.Text = "-";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
@@ -298,11 +312,21 @@
             this.label11.Size = new System.Drawing.Size(612, 1);
             this.label11.TabIndex = 40;
             // 
+            // dataGridView2
+            // 
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Location = new System.Drawing.Point(-62, 270);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.Size = new System.Drawing.Size(147, 137);
+            this.dataGridView2.TabIndex = 59;
+            this.dataGridView2.Visible = false;
+            // 
             // add_reis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(587, 302);
+            this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
@@ -336,6 +360,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -368,5 +393,6 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.DataGridView dataGridView2;
     }
 }
