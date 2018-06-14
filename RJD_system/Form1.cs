@@ -30,102 +30,118 @@ namespace RJD_system
         public static string connStr = "server=localhost;user=root;database=JDVokzal;password=;SslMode=none";  // строка подключения к БД
         private void Form1_Load(object sender, EventArgs e)
         {
+            //roleid = 0;
             comboBox1.SelectedIndex = 0;
+            login = "";
+            password = "";
+            roleid = 0;   //роль 0 - администратор 1 - оператор
+            name = "";
+            surname = "";
+            otchestvo = "";
+            id = 0;
+            phone = "";
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            // создаём объект для подключения к БД
-            MySqlConnection conn = new MySqlConnection(connStr);
-            // устанавливаем соединение с БД
-            conn.Open();
-            // запрос
-            string auth = "SELECT * FROM Sotrudnic WHERE Login = ''";
-            if (comboBox1.SelectedIndex == 0)
-            {
-                 auth = "SELECT * FROM Sotrudnic WHERE Login = '" + textBox1.Text + "' AND RoleID = '0'";
-            }
-            if (comboBox1.SelectedIndex == 1)
-            {
-                auth = "SELECT * FROM Sotrudnic WHERE Login = '" + textBox1.Text + "' AND RoleID = '1'";
-            }
             try
             {
-                MySqlCommand commandauth = new MySqlCommand(auth, conn);
-
-                
-                MySqlDataReader MyDataReader;
-                MyDataReader = commandauth.ExecuteReader();
-
-                while (MyDataReader.Read())
+                // создаём объект для подключения к БД
+                MySqlConnection conn = new MySqlConnection(connStr);
+                // устанавливаем соединение с БД
+                conn.Open();
+                // запрос
+                string auth = "SELECT * FROM Sotrudnic WHERE Login = ''";
+                if (comboBox1.SelectedIndex == 0)
                 {
-
-                    id = MyDataReader.GetInt32(0);
-                    name = MyDataReader.GetString(1);
-                    surname = MyDataReader.GetString(2);
-                    otchestvo = MyDataReader.GetString(3);
-                    login = MyDataReader.GetString(5);
-                    password = MyDataReader.GetString(6);
-                    phone = MyDataReader.GetString(4);               
-                    roleid = MyDataReader.GetInt32(7);
+                    auth = "SELECT * FROM Sotrudnic WHERE Login = '" + textBox1.Text + "' AND RoleID = '0'";
                 }
-                MyDataReader.Close();
-                // закрываем соединение с БД
-                conn.Close();
-                if (id == 0)
+                if (comboBox1.SelectedIndex == 1)
                 {
-                    MessageBox.Show("Пользователь не найден", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    auth = "SELECT * FROM Sotrudnic WHERE Login = '" + textBox1.Text + "' AND RoleID = '1'";
                 }
-                else
+                try
                 {
-                    string notshapass = textBox2.Text;
-                    string shapass = "";
-                    //ПОЛУЧАЕМ ХЭШ ПАРОЛЯ
-                    byte[] hash = Encoding.ASCII.GetBytes(notshapass);
-                    MD5 md5 = new MD5CryptoServiceProvider();
-                    byte[] hashenc = md5.ComputeHash(hash);
-                    string result = "";
-                    foreach (var b in hashenc)
+                    MySqlCommand commandauth = new MySqlCommand(auth, conn);
+
+
+                    MySqlDataReader MyDataReader;
+                    MyDataReader = commandauth.ExecuteReader();
+
+                    while (MyDataReader.Read())
                     {
-                        result += b.ToString("x2");
+
+                        id = MyDataReader.GetInt32(0);
+                        name = MyDataReader.GetString(1);
+                        surname = MyDataReader.GetString(2);
+                        otchestvo = MyDataReader.GetString(3);
+                        login = MyDataReader.GetString(5);
+                        password = MyDataReader.GetString(6);
+                        phone = MyDataReader.GetString(4);
+                        roleid = MyDataReader.GetInt32(7);
                     }
-                    shapass = result;
-                 
-                    if (shapass == password)
+                    MyDataReader.Close();
+                    // закрываем соединение с БД
+                    conn.Close();
+                    if (id == 0)
                     {
-                      
-                            
-                            if (roleid == 0)
-                            {
-                            //Админ
-                            Form adminka = new adminka();
-                            this.Visible = false;
-                            adminka.ShowDialog();
-                            this.Visible = true;
-                            Application.Exit();
-                        }
-                            if (roleid == 1)
-                            {
-                            //Оператор
-                            Form operator_form = new operator_form();
-                            this.Visible = false;
-                            operator_form.ShowDialog();
-                            this.Visible = true;
-                            Application.Exit();
-                        }
-                          
-                       
+                        MessageBox.Show("Пользователь не найден", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
                     {
-                        MessageBox.Show("Пароль введен неверно", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        string notshapass = textBox2.Text;
+                        string shapass = "";
+                        //ПОЛУЧАЕМ ХЭШ ПАРОЛЯ
+                        byte[] hash = Encoding.ASCII.GetBytes(notshapass);
+                        MD5 md5 = new MD5CryptoServiceProvider();
+                        byte[] hashenc = md5.ComputeHash(hash);
+                        string result = "";
+                        foreach (var b in hashenc)
+                        {
+                            result += b.ToString("x2");
+                        }
+                        shapass = result;
+
+                        if (shapass == password)
+                        {
+
+
+                            if (roleid == 0)
+                            {
+                                //Админ
+                                Form adminka = new adminka();
+                                this.Visible = false;
+                                adminka.ShowDialog();
+                                this.Visible = true;
+                                Application.Exit();
+                            }
+                            if (roleid == 1)
+                            {
+                                //Оператор
+                                Form operator_form = new operator_form();
+                                this.Visible = false;
+                                operator_form.ShowDialog();
+                                this.Visible = true;
+                                Application.Exit();
+                            }
+
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("Пароль введен неверно", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show("Ошибка работы с базой данных" + ex, "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            catch (Exception ex)
+            catch
             {
-                
-                MessageBox.Show("Ошибка работы с базой данных" + ex, "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ошибка подключения к базе данных!", "ЖД Вокзал", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
